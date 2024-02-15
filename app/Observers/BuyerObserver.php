@@ -11,7 +11,7 @@ class BuyerObserver
      */
     public function created(Buyer $buyer): void
     {
-        $buyer->company_id = 0;
+        $buyer->company_id = 1;
     }
 
 }

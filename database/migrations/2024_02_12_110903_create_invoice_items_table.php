@@ -27,9 +27,9 @@ return new class extends Migration
             $table->decimal('total_discount', 10, 2)->nullable();
             $table->decimal('total_discount_rate', 10, 2)->nullable();
             $table->decimal('total_discount_type', 10, 2)->nullable();
-            $table->unsignedBigInteger('invoice_id');
+
             $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->default(1);
             $table->timestamps();
         });
     }

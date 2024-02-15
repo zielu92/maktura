@@ -12,7 +12,7 @@ class InvoiceObserver
      */
     public function created(Invoice $invoice): void
     {
-        $invoice->company_id = 0;
+        $invoice->company_id = 1;
     }
 
 }

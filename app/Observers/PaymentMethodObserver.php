@@ -11,7 +11,7 @@ class PaymentMethodObserver
      */
     public function created(PaymentMethod $paymentMethod): void
     {
-        $paymentMethod->company_id = 0;
+        $paymentMethod->company_id = 1;
     }
 
 }

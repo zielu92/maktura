@@ -13,6 +13,6 @@ class InvoiceItemObserver
      */
     public function created(InvoiceItem $invoiceItem): void
     {
-        $invoiceItem->company_id = 0;
+        $invoiceItem->company_id = 1;
     }
 }

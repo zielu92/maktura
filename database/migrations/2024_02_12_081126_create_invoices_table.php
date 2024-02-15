@@ -34,7 +34,7 @@ return new class extends Migration
             $table->decimal('due', 10, 2)->default(0);
             $table->string('path')->nullable();
             //future
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->default(1);
             $table->timestamps();
         });
     }

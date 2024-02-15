@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/buyer/store', [BuyerController::class, 'store'])->name('buyer.store');
     Route::get('/buyer/show/{id}', [BuyerController::class, 'show'])->name('buyer.show');
     Route::get('/buyer/edit/{id}', [BuyerController::class, 'edit'])->name('buyer.edit');
-    Route::patch('/buyer', [BuyerController::class, 'update'])->name('buyer.update');
-    Route::delete('/buyer', [BuyerController::class, 'destroy'])->name('buyer.destroy');
+    Route::patch('/buyer/{id}', [BuyerController::class, 'update'])->name('buyer.update');
+    Route::delete('/buyer/{id}', [BuyerController::class, 'destroy'])->name('buyer.destroy');
 
     //payment method
     Route::get('/payment', [PaymentMethodController::class, 'index'])->name('payment.index');

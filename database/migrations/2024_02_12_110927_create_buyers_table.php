@@ -21,11 +21,12 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('country')->nullable();
-            $table->string('nip', 64)->nullable();
-            $table->string('regon', 10)->nullable();
-            $table->string('krs', 15)->nullable();
-            $table->unsignedBigInteger('company_id');
+            $table->string('nip', 20)->nullable();
+            $table->string('regon', 20)->nullable();
+            $table->string('krs', 20)->nullable();
+            $table->unsignedBigInteger('company_id')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
