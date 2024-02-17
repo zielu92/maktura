@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('payment_method_id');
             $table->string('comment')->nullable();
+            $table->string('currency',4)->default('EUR');
             $table->string('issuer_name')->nullable();
             $table->decimal('sub_total', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->default(0);

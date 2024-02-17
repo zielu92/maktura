@@ -64,18 +64,14 @@
                             @endforeach
                         </table>
                     </div>
-                        <div class="row">
+                    <div class="py-12">
 
-                            <div class="col-md-12">
+                        {{ $buyers->links('pagination::tailwind') }}
 
-                                {{ $buyers->links('pagination::tailwind') }}
-
-                            </div>
-
-                        </div>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+

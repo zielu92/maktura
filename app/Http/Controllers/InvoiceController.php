@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buyer;
+use App\Models\Invoice;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Models\Invoice;
 
 class InvoiceController extends Controller
 {
@@ -23,7 +24,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('invoice.create', [
+            'buyers' => Buyer::all(),
+        ]);
     }
 
     /**
@@ -31,7 +34,28 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
-        //
+        $data = $request->validated();
+        dd($data);
+        //check if there is a new buyer or exited one
+        if($request->buyer_id==-1) {
+            $buyer = Buyer::create($data['new_buyer']);
+            $data['buyer_id'] = $buyer->id;
+        } else {
+            $data['buyer_id'] = $data['buyer'];
+        }
+        unset($data['new_buyer']);
+        $data->buyer_id = $data['buyer'];
+        unset($data['buyer']);
+        //create invoice
+        $invoice = Invoice::create($data);
+        //add items to invoice
+        if($request->has('items')) {
+            foreach($data['items'] as $item) {
+                $item->invoice_id = $invoice->id;
+                $invoice->items()->create($item);
+            }
+        }
+        return redirect()->route('invoice.index')->with('message', 'Invoice created successfully.');
     }
 
     /**
@@ -61,8 +85,13 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        $invoice = Invoice::find($id);
+        if($invoice==null) {
+            return redirect()->route('invoice.index')->with('error', 'Invoice cannnot be deleted.');
+        }
+        $invoice->delete();
+        return redirect()->route('invoice.index')->with('messge', 'Invoice deleted successfully.');
     }
 }

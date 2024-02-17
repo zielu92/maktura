@@ -10,7 +10,7 @@ class InvoiceItem extends Model
     use HasFactory;
     protected $table = 'invoice_items';
     protected $fillable = ['invoice_id', 'name', 'quantity', 'description', 'price_net', 'price_gross', 'tax_rate', 'tax_amount',
-    'total_net', 'total_gross', 'total_tax', 'total_amount', 'total_discount', 'total_discount_rate', 'total_discount_type', 'invoice_id'];
+    'discount', 'discount_type', 'total_net', 'total_gross', 'total_tax', 'total_amount', 'total_discount', 'total_discount_type', 'invoice_id'];
 
     public function invoice()
     {

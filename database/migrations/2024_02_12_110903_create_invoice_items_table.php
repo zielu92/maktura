@@ -18,14 +18,15 @@ return new class extends Migration
             $table->string('quantity')->nullable();
             $table->decimal('price_net', 10, 2)->nullable();
             $table->decimal('price_gross', 10, 2)->nullable();
-            $table->decimal('tax_rate', 10, 2)->nullable();
+            $table->string('tax_rate')->nullable();
             $table->decimal('tax_amount', 10, 2)->nullable();
+            $table->decimal('discount', 10, 2)->nullable();
+            $table->decimal('discount_type', 10, 2)->nullable();
             $table->decimal('total_net', 10, 2)->nullable();
             $table->decimal('total_gross', 10, 2)->nullable();
             $table->decimal('total_tax', 10, 2)->nullable();
             $table->decimal('total_amount', 10, 2)->nullable();
             $table->decimal('total_discount', 10, 2)->nullable();
-            $table->decimal('total_discount_rate', 10, 2)->nullable();
             $table->decimal('total_discount_type', 10, 2)->nullable();
 
             $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
