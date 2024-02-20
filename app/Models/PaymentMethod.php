@@ -20,6 +20,6 @@ class PaymentMethod extends Model
     {
         // $company = Company::getCurrent();
         // return new \Illuminate\Database\Eloquent\Builder($query->where('payment_methods' . '.company_id', $company->id));
-        return new \Illuminate\Database\Eloquent\Builder($query->where('payment_methods' . '.company_id', 0));
+        return new \Illuminate\Database\Eloquent\Builder($query->where('payment_methods' . '.company_id', 1));
     }
 }

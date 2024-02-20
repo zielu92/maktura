@@ -28,9 +28,10 @@ return new class extends Migration
             $table->string('comment')->nullable();
             $table->string('currency',4)->default('EUR');
             $table->string('issuer_name')->nullable();
-            $table->decimal('sub_total', 10, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('total', 10, 2)->default(0);
+            $table->decimal('total_net', 10, 2)->default(0);
+            $table->decimal('total_gross', 10, 2)->default(0);
+            $table->decimal('total_tax', 10, 2)->default(0);
+            $table->decimal('total_discount', 10, 2)->default(0);
             $table->decimal('paid', 10, 2)->default(0);
             $table->decimal('due', 10, 2)->default(0);
             $table->string('path')->nullable();

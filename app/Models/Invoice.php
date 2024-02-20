@@ -10,8 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $table = 'invoices';
-    protected $fillable = ['no', 'currency', 'buyer_id', 'status', 'payment_status', 'place', 'sale_date', 'due_date', 'issue_date', 'parent_id', 'user_id', 'payment_method_id', 'comment', 'issuer_name', 'sub_total', 'discount', 'total', 'paid', 'due'];
-
+    protected $fillable = ['no', 'currency', 'type', 'buyer_id', 'status', 'payment_status', 'place', 'sale_date', 'due_date', 'issue_date', 'parent_id', 'user_id', 'payment_method_id', 'comment', 'issuer_name', 'total_net', 'total_gross', 'total_tax', 'total_discount', 'paid', 'due'];
 
     public function items()
     {
@@ -44,6 +43,6 @@ class Invoice extends Model
     {
         // $company = Company::getCurrent();
         // return new \Illuminate\Database\Eloquent\Builder($query->where('invoices' . '.company_id', $company->id));
-        return new \Illuminate\Database\Eloquent\Builder($query->where('invoices' . '.company_id', 0));
+        return new \Illuminate\Database\Eloquent\Builder($query->where('invoices' . '.company_id', 1));
     }
 }

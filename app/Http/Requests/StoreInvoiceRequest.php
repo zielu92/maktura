@@ -36,8 +36,8 @@ class StoreInvoiceRequest extends FormRequest
             'issuer_name'       => 'nullable|string',
             'issuer_name'       => 'nullable|string',
             'buyer_id'          => 'nullable|string',
-            'name'              => 'required|string|max:255',
-            'company_name'      => 'required|string',
+            'name'              => 'nullable|string|max:255',
+            'company_name'      => 'nullable|string',
             'email'             => 'email|nullable',
             'phone'             => 'nullable',
             'address'           => 'nullable|string',
@@ -63,6 +63,11 @@ class StoreInvoiceRequest extends FormRequest
                                             }
                                         },
             'krs'               => 'nullable|string',
+            'item.*.name'       => 'required|string',
+            'item.*.quantity'   => 'required|numeric',
+            'item.*.price_net'  => 'required|numeric',
+            'item.*.tax_rate'   => 'required|string',
+            'item.*.discount'   => 'required|numeric',
         ];
     }
 }

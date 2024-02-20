@@ -9,7 +9,7 @@ class BuyerObserver
     /**
      * Handle the Buyer "created" event.
      */
-    public function created(Buyer $buyer): void
+    public function creating(Buyer $buyer): void
     {
         $buyer->company_id = 1;
     }

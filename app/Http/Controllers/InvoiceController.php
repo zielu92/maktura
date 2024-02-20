@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Buyer;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Helpers\PricesHelper;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 
@@ -35,26 +39,64 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
         $data = $request->validated();
-        dd($data);
+
         //check if there is a new buyer or exited one
-        if($request->buyer_id==-1) {
-            $buyer = Buyer::create($data['new_buyer']);
+        if($request['buyer_id']==-1) {
+            //create new buyer
+            $buyer = Buyer::create($data);
             $data['buyer_id'] = $buyer->id;
-        } else {
-            $data['buyer_id'] = $data['buyer'];
         }
-        unset($data['new_buyer']);
-        $data->buyer_id = $data['buyer'];
-        unset($data['buyer']);
+        $data['user_id'] = auth()->user()->id;
         //create invoice
         $invoice = Invoice::create($data);
+        //init totals
+        $invoice['total_net'] = 0;
+        $invoice['total_discount'] = 0;
+        $invoice['total_gross'] = 0;
+        $invoice['total_tax'] = 0;
         //add items to invoice
-        if($request->has('items')) {
-            foreach($data['items'] as $item) {
-                $item->invoice_id = $invoice->id;
-                $invoice->items()->create($item);
+        foreach($data['item'] as $item) {
+            $itm = [];
+            $itm['invoice_id'] = $invoice->id;
+            $itm['price_net']  = $item['price_net'];
+            //calculate discount by amount or %
+            if(str_contains($item['discount'], '%')) {
+                $itm['discount_type'] = 'percentage';
+                $itm['discount'] = str_replace('%', '', $item['discount']);
+                if($itm['discount'] > 0) {
+                    $itm['discount'] = ($itm['discount'] / 100) * $itm['price_net'];
+                } else {
+                    $itm['discount'] = 0;
+                }
+            } else {
+                $itm['discount_type'] = 'amount';
+                $itm['discount'] = $item['discount'];
             }
+            $itm['quantity'] = $item['quantity'];
+            $itm['tax_rate'] = $item['tax_rate'];
+            $priceNettAfterDiscount = $item['price_net'] - $item['discount'];
+            $itm['total_net'] = round($item['quantity'] * $priceNettAfterDiscount,2);
+            $itm['total_discount'] = round($item['quantity'] * $item['discount'],2);
+            $itm['price_gross'] = PricesHelper::calculatePriceWithVat($item['tax_rate'], $priceNettAfterDiscount);
+            $itm['total_gross'] = round($itm['price_gross'] * $item['quantity'],2);
+            $itm['tax_amount'] = PricesHelper::calculateVatNett($item['tax_rate'], $priceNettAfterDiscount);
+            $itm['total_tax'] = PricesHelper::calculateVatNett($item['tax_rate'], $itm['total_gross']);
+            $invoice->items()->create($itm);
+            //update totals
+            $invoice['total_net'] += $itm['total_net'];
+            $invoice['total_discount'] += $itm['total_discount'];
+            $invoice['total_gross'] += $itm['total_gross'];
+            $invoice['total_tax'] += $itm['total_tax'];
         }
+        //generate invoice
+        // $pdf = Pdf::loadView('pdf', ['data' => $invoice]);
+        //store
+
+        //get path
+
+        //update totals
+        $invoice->save();
+
         return redirect()->route('invoice.index')->with('message', 'Invoice created successfully.');
     }
 
@@ -63,24 +105,11 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        return view('invoice.show', [
+            'invoice' => $invoice,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
