@@ -19,7 +19,7 @@ class InvoiceController extends Controller
     public function index()
     {
         return view('invoice.index', [
-            'invoices' => Invoice::all(),
+            'invoices' => Invoice::orderBy('created_at', 'DESC')->paginate(20),
         ]);
     }
 
@@ -79,8 +79,8 @@ class InvoiceController extends Controller
             $itm['total_discount'] = round($item['quantity'] * $item['discount'],2);
             $itm['price_gross'] = PricesHelper::calculatePriceWithVat($item['tax_rate'], $priceNettAfterDiscount);
             $itm['total_gross'] = round($itm['price_gross'] * $item['quantity'],2);
-            $itm['tax_amount'] = PricesHelper::calculateVatNett($item['tax_rate'], $priceNettAfterDiscount);
-            $itm['total_tax'] = PricesHelper::calculateVatNett($item['tax_rate'], $itm['total_gross']);
+            $itm['tax_amount'] = PricesHelper::calculateVatNet($item['tax_rate'], $priceNettAfterDiscount);
+            $itm['total_tax'] = PricesHelper::calculateVatNet($item['tax_rate'], $itm['total_gross']);
             $invoice->items()->create($itm);
             //update totals
             $invoice['total_net'] += $itm['total_net'];
@@ -120,7 +120,7 @@ class InvoiceController extends Controller
         if($invoice==null) {
             return redirect()->route('invoice.index')->with('error', 'Invoice cannnot be deleted.');
         }
-        $invoice->delete();
+        $invoice->update(['type' => 'deleted']);
         return redirect()->route('invoice.index')->with('messge', 'Invoice deleted successfully.');
     }
 }

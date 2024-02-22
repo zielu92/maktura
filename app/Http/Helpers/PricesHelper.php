@@ -17,7 +17,7 @@ class PricesHelper
             return round($valueNet,2);
         }
         //calculate the % in dynamic way
-        return round($valueNet * ($rate/100)+1,2);
+        return round($valueNet * (($rate/100)+1),2);
     }
 
     /**
@@ -27,7 +27,7 @@ class PricesHelper
      * @param  mixed $valueNetto
      * @return float
      */
-    public static function calculateVatNett(string $rate = '', float $valueNet): float
+    public static function calculateVatNet(string $rate = '', float $valueNet): float
     {
         if (!is_numeric($rate)) {
             return 0;

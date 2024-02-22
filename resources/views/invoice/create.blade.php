@@ -230,7 +230,7 @@
             function invoiceItems() {
                 return {
                     items: [],
-                    addNewField(q = 1, pn = 0.00, tr = '23', d = 0.00, n = '', e = null) {
+                    addNewField(q = 1, pn = 0.00, tr = 23, d = 0.00, n = '', e = null) {
                         this.items.push({
                             id: new Date().getTime() + this.items.length,
                             quantity: q,
@@ -245,11 +245,9 @@
                             error: e,
                         });
                     },
-
                     removeField(item) {
                         this.items.splice(this.items.indexOf(item), 1);
                     },
-
                     calculateItem(item) {
                         //create shorthand
                         var calculatedItem = this.items[this.items.indexOf(item)]
@@ -265,31 +263,13 @@
                                 discount = calculatedItem.discount;
                             }
                         }
-
                         //calculate total price net
                         calculatedItem.total_price_net = (calculatedItem.quantity * (calculatedItem.price_net - discount)).toFixed(2)
-                        //TODO: extend and make more dynamic
                         //calculate gross price per unit
-                        switch (calculatedItem.tax_rate) {
-                            case "23":
-                                calculatedItem.price_gross = ((calculatedItem.price_net - discount) * 1.23)
-                                    .toFixed(2)
-                                break;
-                            case "22":
-                                calculatedItem.price_gross = ((calculatedItem.price_net - discount) * 1.22)
-                                    .toFixed(2)
-                                break;
-                            case "8":
-                                calculatedItem.price_gross = ((calculatedItem.price_net - discount) * 1.08)
-                                    .toFixed(2)
-                                break;
-                            case "5":
-                                calculatedItem.price_gross = ((calculatedItem.price_net - discount) * 1.05)
-                                    .toFixed(2)
-                                break;
-                            default:
-                                calculatedItem.price_gross = ((calculatedItem.price_net - discount)).toFixed(2)
-                                break;
+                        if(is_Numeric(calculatedItem.tax_rate)) {
+                            calculatedItem.price_gross = (calculatedItem.total_price_net * ((calculatedItem.tax_rate/100)+1)).toFixed(2)
+                        } else {
+                            calculatedItem.price_gross = ((calculatedItem.price_net - discount)).toFixed(2);
                         }
                         //sum gross price
                         calculatedItem.total_price_gross = (calculatedItem.price_gross * calculatedItem.quantity).toFixed(2)
@@ -308,6 +288,9 @@
                         @endif
                     }
                 }
+            }
+            function is_Numeric(num) {
+                return !isNaN(parseFloat(num)) && isFinite(num);
             }
         </script>
     @endpush

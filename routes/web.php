@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
     Route::post('/invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::get('/invoice/show/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+    Route::delete('/invoice/{id}', [InvoiceController::class, 'destroy'])->name('invoice.destroy');
+
 
     //buyer
     Route::get('/buyer', [BuyerController::class, 'index'])->name('buyer.index');
