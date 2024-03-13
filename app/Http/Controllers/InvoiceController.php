@@ -8,6 +8,7 @@ use App\Models\InvoiceItem;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Helpers\PricesHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 
@@ -103,10 +104,16 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Invoice $invoice)
+    public function show($id)
     {
-        return view('invoice.show', [
-            'invoice' => $invoice,
+        $invoice = Invoice::findOrFail($id);
+        $items = $invoice->items;
+        $template = 'default';
+        return view('invoice.template.'.$template.'.pdf', [
+            'invoice'       => $invoice,
+            'items'         => $items,
+            'showQty'       => $items->sum('quantity') !== count($items),
+            'showDiscount'  => $items->sum('total_discount') > 0
         ]);
     }
 
@@ -114,13 +121,18 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function update(UpdateInvoiceRequest $request,$id)
     {
+        $data = $request->validated();
+
         $invoice = Invoice::find($id);
         if($invoice==null) {
-            return redirect()->route('invoice.index')->with('error', 'Invoice cannnot be deleted.');
+            return redirect()->route('invoice.index')->with('error', 'Invoice cannnot be updated.');
         }
-        $invoice->update(['type' => 'deleted']);
-        return redirect()->route('invoice.index')->with('messge', 'Invoice deleted successfully.');
+        $invoice->update([
+            'status' => $data['status'],
+            'payment_status' => $data['payment_status'],
+        ]);
+        return redirect()->route('invoice.index')->with('messge', 'Invoice has been updated successfully.');
     }
 }

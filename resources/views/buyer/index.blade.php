@@ -33,10 +33,10 @@
                                             <a href="{{route('buyer.show', $buyer->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline px-3">Pokaż</a>
                                             <a href="{{route('buyer.edit', $buyer->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline px-3">Edytuj</a>
 
-                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-buyer-deletion')" type='submit' class='inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
+                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-buyer-deletion-{{$buyer->id}}')" type='submit' class='inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
                                                 Usuń
                                             </button>
-                                            <x-modal name="confirm-buyer-deletion" :show="$errors->buyerDeletion->isNotEmpty()" focusable>
+                                            <x-modal name="confirm-buyer-deletion-{{$buyer->id}}" :show="$errors->buyerDeletion->isNotEmpty()" focusable>
                                                 <form method="post" action="{{ route('buyer.destroy', $buyer->id) }}" class="p-6">
                                                     @csrf
                                                     @method('DELETE')
@@ -51,7 +51,7 @@
                                                         </x-secondary-button>
 
                                                         <x-danger-button class="ms-3">
-                                                            {{ __('Usiń') }}
+                                                            {{ __('Usuń') }}
                                                         </x-danger-button>
                                                     </div>
                                                 </form>

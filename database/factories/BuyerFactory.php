@@ -17,7 +17,16 @@ class BuyerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'company_name' => fake()->company(),
+            'phone' => fake()->PhoneNumber(),
+            'address' => fake()->streetAddress(),
+            'city' => fake()->city(),
+            'postal_code' => fake()->postcode(),
+            'country' => fake()->country(),
+            'nip' => fake()->unique()->numerify('###########'),
+            'regon' => fake()->unique()->numerify('###########'),
         ];
     }
 }

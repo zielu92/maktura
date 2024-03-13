@@ -43,19 +43,36 @@
 
                                         <td class="px-1 py-4">
                                             <a href="{{route('invoice.show', $invoice->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline px-3">Pokaż</a>
-                                            <a href="{{route('invoice.edit', $invoice->id)}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline px-3">Edytuj</a>
-
-                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-invoice-deletion')" type='submit' class='inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
-                                                Usuń
+                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-invoice-{{ $invoice->id }}')" type='submit' class='inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
+                                                Zaktualizuj status
                                             </button>
-                                            <x-modal name="confirm-invoice-deletion" :show="$errors->invoiceDeletion->isNotEmpty()" focusable>
-                                                <form method="post" action="{{ route('invoice.destroy', $invoice->id) }}" class="p-6">
+                                            <x-modal name="confirm-invoice-{{ $invoice->id }}" :show="$errors->invoiceDeletion->isNotEmpty()" focusable>
+                                                <form method="post" action="{{ route('invoice.update', $invoice->id) }}" class="p-6" autocomplete="off" >
                                                     @csrf
-                                                    @method('DELETE')
+                                                    @method('PATCH')
 
                                                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                        {{ __('Na pewno chcesz usunąć '.$invoice->company_name.' z bazy danych?') }}
+                                                        {{ __('Na pewno chcesz zmienić status faktury id '.$invoice->id.'') }}
                                                     </h2>
+
+                                                    <x-input-label for="status" :value="__('Status')" />
+
+                                                    <select name="status" id="status"
+                                                        class="mt-1 block w-full dark:bg-gray-900  sm:rounded-lg">
+                                                        <option value="template"  {{$invoice->status=='template' ? 'selected="selected"' : '' }}>Szablon</option>
+                                                        <option value="published" {{$invoice->status=='published' ? 'selected="selected"' : '' }}>Wystawiona</option>
+                                                        <option value="deleted" {{$invoice->status=='deleted' ? 'selected="selected"' : '' }}>Usunięta</option>
+                                                    </select>
+                                                    <x-input-error class="mt-2" :messages="$errors->get('status')" />
+
+                                                    <x-input-label for="payment_status" :value="__('Status płatności')" />
+                                                    <select name="payment_status" id="payment_status"
+                                                        class="mt-1 block w-full dark:bg-gray-900  sm:rounded-lg">
+                                                        <option value="notpaid" {{$invoice->payment_status=='notpaid' ? 'selected="selected"' : '' }}>Oczekuje na płatność</option>
+                                                        <option value="paid" {{$invoice->payment_status=='paid' ? 'selected="selected"' : '' }}>Zapłacone</option>
+                                                    </select>
+                                                    <x-input-error class="mt-2" :messages="$errors->get('payment_status')" />
+
 
                                                     <div class="mt-6 flex justify-end">
                                                         <x-secondary-button x-on:click="$dispatch('close')">
@@ -63,7 +80,7 @@
                                                         </x-secondary-button>
 
                                                         <x-danger-button class="ms-3">
-                                                            {{ __('Usiń') }}
+                                                            {{ __('Zaktualizuj') }}
                                                         </x-danger-button>
                                                     </div>
                                                 </form>
