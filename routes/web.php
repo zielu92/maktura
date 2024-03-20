@@ -47,15 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/buyer/{id}', [BuyerController::class, 'update'])->name('buyer.update');
     Route::delete('/buyer/{id}', [BuyerController::class, 'destroy'])->name('buyer.destroy');
 
-    //payment method
-    Route::get('/payment', [PaymentMethodController::class, 'index'])->name('payment.index');
-    Route::get('/payment/create', [PaymentMethodController::class, 'create'])->name('payment.create');
-    Route::post('/payment/store', [PaymentMethodController::class, 'store'])->name('payment.store');
-    Route::get('/payment/show/{id}', [PaymentMethodController::class, 'show'])->name('payment.show');
-    Route::get('/payment/edit/{id}', [PaymentMethodController::class, 'edit'])->name('payment.edit');
-    Route::patch('/payment', [PaymentMethodController::class, 'update'])->name('payment.update');
-    Route::delete('/payment', [PaymentMethodController::class, 'destroy'])->name('payment.destroy');
-
 });
 
 require __DIR__.'/auth.php';

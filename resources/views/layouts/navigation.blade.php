@@ -22,7 +22,7 @@
                     <x-nav-link :href="route('buyer.index')" :active="request()->routeIs('buyer.index')">
                         {{ __('Nabywcy') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('payment.index')" :active="request()->routeIs('payment.index')">
+                    <x-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.index')">
                         {{ __('Metody płatności') }}
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
