@@ -4,12 +4,12 @@ namespace Modules\Payments\App\Payments;
 
 abstract class Payment
 {
-    protected $haveURL = false;
+    protected bool $haveURL = false;
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return $this->getConfigValue('active');
     }

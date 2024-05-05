@@ -5,7 +5,8 @@ namespace Modules\Payments\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Modules\Payments\App\Models\PaymentMethodModel;
 use Modules\Payments\App\PaymentMethods;
 
 class PaymentsController extends Controller
@@ -15,9 +16,9 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        $paymentMethods = new PaymentMethods();
+        $paymentMethods = PaymentMethodModel::all();
         return view('payments::index', [
-            'paymentMethods' => $paymentMethods->getPaymentMethods(),
+            'paymentMethods' => $paymentMethods,
         ]);
     }
 
@@ -26,7 +27,10 @@ class PaymentsController extends Controller
      */
     public function create()
     {
-        return view('payments::create');
+        $paymentMethods = new PaymentMethods();
+        return view('payments::create', [
+            'paymentMethods' => $paymentMethods->getPaymentMethods(),
+        ]);
     }
 
     /**
@@ -34,7 +38,11 @@ class PaymentsController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        PaymentMethodModel::create($data);
+        //todo: check if this method will redirect to advanced settings or needs to auth on antoher serivce
+        return redirect()->route('payments.index');
     }
 
     /**
@@ -50,7 +58,9 @@ class PaymentsController extends Controller
      */
     public function edit($id)
     {
-        return view('payments::edit');
+        $method = PaymentMethodModel::find($id);
+
+        return view('payments::edit', ['method'=>$method]);
     }
 
     /**
@@ -58,7 +68,9 @@ class PaymentsController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $method = PaymentMethodModel::find($id);
+        $method->update($request->all());
+        return redirect()->route('payments.index')->with('messge', 'Payment method updated successfully.');
     }
 
     /**
@@ -66,6 +78,11 @@ class PaymentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $method = PaymentMethodModel::find($id);
+        if($method==null) {
+            return redirect()->route('payments.index')->with('error', 'Payment method cannnot be deleted.');
+        }
+        $method->delete();
+        return redirect()->route('payments.index')->with('messge', 'Payment method deleted successfully.');
     }
 }

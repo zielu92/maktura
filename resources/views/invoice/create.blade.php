@@ -21,7 +21,6 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('status')" />
                             </div>
 
-
                             <div class="w-full md:w-1/4 px-3 py-2">
                                 <x-input-label for="type" :value="__('Typ faktury')" />
                                 <select name="type" id="type"
