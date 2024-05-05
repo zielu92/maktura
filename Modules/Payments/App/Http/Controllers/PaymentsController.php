@@ -41,7 +41,7 @@ class PaymentsController extends Controller
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
         PaymentMethodModel::create($data);
-        //todo: check if this method will redirect to advanced settings or needs to auth on antoher serivce
+        //todo: check if this method will redirect to advanced settings or needs to auth on another service
         return redirect()->route('payments.index');
     }
 

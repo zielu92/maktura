@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use Modules\Payments\App\Models\PaymentMethodModel;
 
 class InvoiceController extends Controller
 {
@@ -31,6 +32,7 @@ class InvoiceController extends Controller
     {
         return view('invoice.create', [
             'buyers' => Buyer::all(),
+            'paymentMethods' => PaymentMethodModel::all(),
         ]);
     }
 

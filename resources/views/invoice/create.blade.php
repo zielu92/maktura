@@ -54,7 +54,9 @@
                                 <x-input-label for="payment_method_id" :value="__('Metoda Płatności')" />
                                 <select name="payment_method_id" id="payment_method_id"
                                     class="mt-1 block w-full dark:bg-gray-900  sm:rounded-lg">
-                                    <option value="0" selected='selected'>Gotówka</option>
+                                    @foreach($paymentMethods as $method)
+                                    <option value="{{$method->id}}">{{$method->name}} ({{$method->method}})</option>
+                                    @endforeach
                                     <option value="1">Transfer</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('payment_method_id')" />
