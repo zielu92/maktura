@@ -44,10 +44,10 @@ class PaymentMethods
      * @param int $id
      * @return object
      */
-    public function registerMethod(string $method, int $id): object
+    public static function registerMethod(string $method, int $id = null): object
     {
         $object = app(config('payment_methods.' . $method . '.class'));
-        return $object->registerService($id);
+        return $object->registerMethod($id);
     }
 
     /**

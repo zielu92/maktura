@@ -5,13 +5,15 @@ namespace Modules\Payments\App\Payments;
 abstract class Payment
 {
     protected bool $haveURL = false;
-
+    public function registerMethod($id = null) {
+        return redirect()->route('payments.index');
+    }
     /**
      * @return bool
      */
     public function isAvailable(): bool
     {
-        return $this->getConfigValue('active');
+        return $this->getConfigValue('active') ?? false;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Payments\App\Http\Controllers\PaymentsController;
+use Modules\Payments\App\Http\Controllers\TransferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,5 @@ use Modules\Payments\App\Http\Controllers\PaymentsController;
 
 Route::group([], function () {
     Route::resource('payments', PaymentsController::class)->names('payments');
+    Route::resource('transfer', TransferController::class)->names('payments.transfer');
 });
