@@ -14,8 +14,10 @@ use Modules\Payments\App\Http\Controllers\TransferController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group([], function () {
-    Route::resource('payments', PaymentsController::class)->names('payments');
-    Route::resource('transfer', TransferController::class)->names('payments.transfer');
+Route::middleware('auth')->group(function () {
+    Route::group([], function () {
+        Route::resource('payments', PaymentsController::class)->names('payments');
+        Route::resource('transfer', TransferController::class)->names('payments.transfer')->except('create');
+        Route::get('/transfer/create/{id}', [TransferController::class, 'create'])->name('payments.transfer.create');
+    });
 });

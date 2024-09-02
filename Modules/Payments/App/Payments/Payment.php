@@ -5,6 +5,8 @@ namespace Modules\Payments\App\Payments;
 abstract class Payment
 {
     protected bool $haveURL = false;
+    protected string $code;
+
     public function registerMethod($id = null) {
         return redirect()->route('payments.index');
     }
@@ -98,4 +100,27 @@ abstract class Payment
         return $this->haveURL;
     }
 
+    /**
+     * Get the path for edit view
+     */
+    public function getEditView(): string | null
+    {
+        return null;
+    }
+
+    /**
+     * Retrieve data from db about the patment method
+     */
+    public function getMethodData(int $id): array | null
+    {
+        return null;
+    }
+
+    /**
+     * Setting data about the patment method
+     */
+    public function setMethodData(int $id, array $data): array | null
+    {
+        return null;
+    }
 }

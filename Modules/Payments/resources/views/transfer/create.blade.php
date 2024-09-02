@@ -41,17 +41,18 @@
 
                             <div class="w-full md:w-1/2 px-3 py-2">
                                 <x-input-label for="beneficiaryName" :value="__('Nazwa odbiorcy')" />
-                                <x-text-input id="beneficiaryName" name="swift" type="text" class="mt-1 block w-full"
+                                <x-text-input id="beneficiaryName" name="beneficiaryName" type="text" class="mt-1 block w-full"
                                               :value="old('beneficiaryName')" autofocus autocomplete="beneficiaryName" />
                                 <x-input-error class="mt-2" :messages="$errors->get('beneficiaryName')" />
                             </div>
 
                             <div class="w-full md:w-1/2 px-3 py-2">
                                 <x-input-label for="beneficiaryAddress" :value="__('Adres odbiorcy')" />
-                                <x-text-input id="beneficiaryAddress" name="swift" type="text" class="mt-1 block w-full"
+                                <x-text-input id="beneficiaryAddress" name="beneficiaryAddress" type="text" class="mt-1 block w-full"
                                               :value="old('beneficiaryAddress')" autofocus autocomplete="beneficiaryAddress" />
                                 <x-input-error class="mt-2" :messages="$errors->get('beneficiaryAddress')" />
                             </div>
+                            <input type="hidden" value="{{$id}}" name="payment_method_id">
                         </div>
                         <div class="pb-7 float-right">
                             <x-primary-button>Skonfiguruj te metode płatności</x-primary-button>

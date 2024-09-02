@@ -40,8 +40,8 @@ class PaymentsController extends Controller
     {
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
-        PaymentMethodModel::create($data);
-        return PaymentMethods::registerMethod($data["method"]);
+        $id = PaymentMethodModel::create($data)->id;
+        return PaymentMethods::registerMethod($data["method"], $id);
     }
 
     /**
@@ -58,8 +58,11 @@ class PaymentsController extends Controller
     public function edit($id)
     {
         $method = PaymentMethodModel::find($id);
-
-        return view('payments::edit', ['method'=>$method]);
+        return view('payments::edit', [
+            'method'=>$method,
+            'editPaymentMethodView' => PaymentMethods::getEditView($method["method"]),
+            'paymentMedtodData' => PaymentMethods::getPaymentDataMethod($method["method"],$id)
+        ]);
     }
 
     /**
@@ -67,8 +70,12 @@ class PaymentsController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
+        $data = $request->all();
         $method = PaymentMethodModel::find($id);
-        $method->update($request->all());
+        $method->update($data);
+        if(isset($data['paymentMedtodData'])) {
+            PaymentMethods::setPaymentDataMethod($method["method"],$id, $data['paymentMedtodData']);
+        }
         return redirect()->route('payments.index')->with('messge', 'Payment method updated successfully.');
     }
 

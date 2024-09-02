@@ -2,6 +2,9 @@
 
 namespace Modules\Payments\App\Payments;
 
+use Illuminate\Support\Facades\Auth;
+use Modules\Payments\App\Models\Transfer as TransferModel;
+
 class Transfer extends Payment
 {
     protected string $code = 'transfer';
@@ -9,6 +12,29 @@ class Transfer extends Payment
 
     public function registerMethod($id = null)
     {
-        return redirect()->route('payments.transfer.create');
+
+        return redirect()->route('payments.transfer.create', ['id'=> $id]);
+    }
+
+    public function getEditView(): string | null
+    {
+        return 'payments::transfer.edit';
+    }
+
+    public function getMethodData($id): array | null
+    {
+        $tm = TransferModel::where('payment_method_id', $id)->first();
+        return $tm?->toArray();
+    }
+
+    public function setMethodData(int $id, array $data): array | null
+    {
+        $data['user_id'] = Auth::user()->id;
+        $tm = TransferModel::updateOrCreate(
+            ['payment_method_id' => $id],
+            $data
+        );
+
+        return $tm ? $tm->toArray() : null;
     }
 }

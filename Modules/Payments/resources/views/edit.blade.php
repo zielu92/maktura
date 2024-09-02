@@ -30,6 +30,11 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('active')" />
                             </div>
                         </div>
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            @if($editPaymentMethodView!=null)
+                                @include($editPaymentMethodView)
+                            @endif
+                        </div>
                         <div class="pb-7 float-right">
                             <x-primary-button>Zapisz zmiany</x-primary-button>
                         </div>

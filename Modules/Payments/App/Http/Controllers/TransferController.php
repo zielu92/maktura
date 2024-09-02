@@ -2,10 +2,12 @@
 
 namespace Modules\Payments\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Modules\Payments\App\Models\Transfer;
 
 class TransferController extends Controller
 {
@@ -20,9 +22,9 @@ class TransferController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        return view('payments::transfer.create');
+        return view('payments::transfer.create', ['id'=>$id]);
     }
 
     /**
@@ -30,7 +32,10 @@ class TransferController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        Transfer::create($data);
+        return redirect()->route('payments.index')->with('messge', 'Payment method added successfully.');
     }
 
     /**

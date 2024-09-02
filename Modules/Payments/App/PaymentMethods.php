@@ -2,6 +2,7 @@
 
 namespace Modules\Payments\App;
 
+use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Config;
 
 class PaymentMethods
@@ -82,6 +83,33 @@ class PaymentMethods
     {
         $object = app(config('payment_methods.' . $method . '.class'));
         return $object->haveURL();
+    }
+
+    /**
+    * method to retrieve view to edit payment method
+    */
+    public static function getEditView(string $method): string | null
+    {
+        $object = app(config('payment_methods.' . $method . '.class'));
+        return view()->exists($object->getEditView()) ? $object->getEditView(): null;
+    }
+
+    /**
+     * Method to get data about specific payment method from db
+     */
+    public static function getPaymentDataMethod(string $method, int $id): array | null
+    {
+        $object = app(config('payment_methods.' . $method . '.class'));
+        return  $object->getMethodData($id);
+    }
+
+    /**
+     * method to set data about specific payment method
+     */
+    public static function setPaymentDataMethod(string $method, int $id, array $data): array | null
+    {
+        $object = app(config('payment_methods.' . $method . '.class'));
+        return $object->setMethodData($id, $data);
     }
 
 }

@@ -13,7 +13,7 @@ class Transfer extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ["accountNumber", "bankName", "iban", "swift", "beneficiaryName", "beneficiaryAddress", "user_id", "company_id"];
+    protected $fillable = ["accountNumber", "bankName", "iban", "swift", "beneficiaryName", "beneficiaryAddress", "user_id", "company_id", "payment_method_id"];
 
 
 }
