@@ -2,6 +2,8 @@
 
 namespace Modules\Payments\App;
 
+use Illuminate\Database\Console\Migrations\StatusCommand;
+use Illuminate\Support\Arr;
 use Nwidart\Modules\Facades\Module;
 use Illuminate\Support\Facades\Config;
 
@@ -110,6 +112,12 @@ class PaymentMethods
     {
         $object = app(config('payment_methods.' . $method . '.class'));
         return $object->setMethodData($id, $data);
+    }
+
+    public static function getPaymentMethodTemplate(string $method, int $id): array | null
+    {
+        $object = app(config('payment_methods.' . $method . '.class'));
+        return $object->getMethodTemplate($id);
     }
 
 }

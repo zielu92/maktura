@@ -123,4 +123,12 @@ abstract class Payment
     {
         return null;
     }
+
+    /**
+     * Method which return path of blade template which can be displayed in invoice
+     */
+    public function getMethodTemplate(int $id): array | null
+    {
+        return null;
+    }
 }

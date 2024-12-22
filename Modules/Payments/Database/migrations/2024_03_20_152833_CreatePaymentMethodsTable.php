@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_method', function(Blueprint $table) {
+        Schema::create('payment_methods', function(Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('name')->nullable();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_method');
+        Schema::dropIfExists('payment_methods');
     }
 };

@@ -194,7 +194,14 @@
     </section>
     <section>
         <div class="text-center mt-2">
-            Sposób zapłaty:
+            @if($paymentMethod && isset($paymentMethod['template']))
+                @include($paymentMethod['template'])
+            @endif
+        </div>
+    </section>
+    <section>
+        <div class="text-center pb-8">
+            {{$invoice->comment}}
         </div>
     </section>
 </div>

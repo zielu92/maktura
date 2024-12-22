@@ -37,4 +37,18 @@ class Transfer extends Payment
 
         return $tm ? $tm->toArray() : null;
     }
+
+    /**
+    * Method which return path of blade template which can be displayed in invoice
+    */
+    public function getMethodTemplate(int $id): array | null
+    {
+        $tm = TransferModel::where('payment_method_id', $id)->first();
+
+        return [
+            'template' => 'payments::transfer.default.info',
+            'data' => $tm
+        ];
+
+    }
 }

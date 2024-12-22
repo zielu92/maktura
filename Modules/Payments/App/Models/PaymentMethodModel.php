@@ -14,6 +14,6 @@ class PaymentMethodModel extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = ["user_id", "name","description", "url", "method", "active", "company_id"];
-    protected $table = "payment_method";
+    protected $table = "payment_methods";
 
 }

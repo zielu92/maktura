@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use Modules\Payments\App\Models\PaymentMethodModel;
+use Modules\Payments\App\PaymentMethods;
+use Modules\Payments\App\Payments\Payment;
 
 class InvoiceController extends Controller
 {
@@ -51,7 +53,7 @@ class InvoiceController extends Controller
         }
         $data['user_id'] = auth()->user()->id;
         //create invoice
-        $invoice = Invoice::create($data);
+        $invoice = Invoice::create($data)->with('paymentMethod');
         //init totals
         $invoice['total_net'] = 0;
         $invoice['total_discount'] = 0;
@@ -91,6 +93,7 @@ class InvoiceController extends Controller
             $invoice['total_gross'] += $itm['total_gross'];
             $invoice['total_tax'] += $itm['total_tax'];
         }
+
         //generate invoice
         // $pdf = Pdf::loadView('pdf', ['data' => $invoice]);
         //store
@@ -108,14 +111,16 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::with('paymentMethod')->findOrFail($id);
         $items = $invoice->items;
         $template = 'default';
+        $paymentMethod = PaymentMethods::getPaymentMethodTemplate($invoice->paymentMethod->method, $invoice->paymentMethod->id);
         return view('invoice.template.'.$template.'.pdf', [
             'invoice'       => $invoice,
             'items'         => $items,
             'showQty'       => $items->sum('quantity') !== count($items),
-            'showDiscount'  => $items->sum('total_discount') > 0
+            'showDiscount'  => $items->sum('total_discount') > 0,
+            'paymentMethod' => $paymentMethod,
         ]);
     }
 
