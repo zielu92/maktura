@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Models\InvoiceBuyer;
 use Modules\Payments\App\Models\PaymentMethodModel;
 use Modules\Payments\App\PaymentMethods;
 use Modules\Payments\App\Payments\Payment;
@@ -48,12 +49,16 @@ class InvoiceController extends Controller
         //check if there is a new buyer or exited one
         if($request['buyer_id']==-1) {
             //create new buyer
-            $buyer = Buyer::create($data);
+            $buyer = InvoiceBuyer::create($data);
             $data['buyer_id'] = $buyer->id;
+        } else {
+            $buyer = Buyer::find($request['buyer_id'])->toArray();
+            InvoiceBuyer::create($buyer);
         }
         $data['user_id'] = auth()->user()->id;
         //create invoice
-        $invoice = Invoice::create($data)->with('paymentMethod');
+        $invoice = Invoice::create($data);
+        $invoice->load('paymentMethod');
         //init totals
         $invoice['total_net'] = 0;
         $invoice['total_discount'] = 0;
