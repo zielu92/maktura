@@ -31,11 +31,7 @@ class StoreBuyerRequest extends FormRequest
             'city'              => 'nullable|string',
             'postal_code'       => 'nullable|string',
             'country'           => 'nullable|string',
-            'nip'               => function ($attribute, $value, $fail) {
-                                    if (!ValidatorHelper::checkNIP($value)) {
-                                        $fail('NIP nie jest poprawny');
-                                    }
-                                },
+            'nip'               => 'nullable',
             'regon'             => function ($attribute, $value, $fail) {
                                             if ($value === null || $value == '') {
                                                 return true;

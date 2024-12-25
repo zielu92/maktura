@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Buyer;
 use App\Models\Invoice;
-use App\Models\InvoiceItem;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Helpers\PricesHelper;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Models\InvoiceBuyer;
 use Modules\Payments\App\Models\PaymentMethodModel;
 use Modules\Payments\App\PaymentMethods;
-use Modules\Payments\App\Payments\Payment;
 
 class InvoiceController extends Controller
 {
@@ -49,11 +43,8 @@ class InvoiceController extends Controller
         //check if there is a new buyer or exited one
         if($request['buyer_id']==-1) {
             //create new buyer
-            $buyer = InvoiceBuyer::create($data);
+            $buyer = Buyer::create($data);
             $data['buyer_id'] = $buyer->id;
-        } else {
-            $buyer = Buyer::find($request['buyer_id'])->toArray();
-            InvoiceBuyer::create($buyer);
         }
         $data['user_id'] = auth()->user()->id;
         //create invoice

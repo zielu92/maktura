@@ -31,7 +31,9 @@
 
                                         <td class="px-6 py-4">{{ $invoice->no }}</td>
 
-                                        <td class="px-6 py-4">{{ $invoice->buyer->name }} ({{$invoice->buyer->company_name}})</td>
+                                        <td class="px-6 py-4">
+                                            {{ $invoice->buyer->name }} ({{ $invoice->buyer->company_name }})
+                                        </td>
 
                                         <td class="px-6 py-4">{{ $invoice->issue_date }}</td>
 

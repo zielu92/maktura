@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('method');
             $table->boolean('active')->default(false);
             $table->unsignedBigInteger('company_id')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

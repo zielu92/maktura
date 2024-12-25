@@ -20,7 +20,7 @@ class Invoice extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(InvoiceBuyer::class, 'buyer_id', 'id');
+        return $this->belongsTo(Buyer::class);
     }
 
     public function paymentMethod(): BelongsTo

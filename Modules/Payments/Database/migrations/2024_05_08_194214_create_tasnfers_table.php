@@ -23,7 +23,8 @@ return new class extends Migration
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('company_id')->default(1);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('payment_method_id')->references('id')->on('payment_method')->onDelete('cascade');
+            $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\Buyer;
 use App\Models\Invoice;
-use App\Models\InvoiceBuyer;
 use App\Models\InvoiceItem;
 use App\Models\PaymentMethod;
 use App\Observers\BuyerObserver;
@@ -39,7 +38,6 @@ class EventServiceProvider extends ServiceProvider
     private function bootObservers(): void
     {
         Invoice::observe(InvoiceObserver::class);
-        InvoiceBuyer::observe(InvoiceBuyer::class);
         InvoiceItem::observe(InvoiceItemObserver::class);
         Buyer::observe(BuyerObserver::class);
         PaymentMethod::observe(PaymentMethodObserver::class);

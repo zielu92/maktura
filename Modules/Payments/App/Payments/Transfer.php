@@ -23,14 +23,15 @@ class Transfer extends Payment
 
     public function getMethodData($id): array | null
     {
-        $tm = TransferModel::where('payment_method_id', $id)->first();
+        $tm = TransferModel::withTrashed()->where('payment_method_id', $id)->first();
         return $tm?->toArray();
     }
 
     public function setMethodData(int $id, array $data): array | null
     {
         $data['user_id'] = Auth::user()->id;
-        $tm = TransferModel::updateOrCreate(
+
+        $tm = TransferModel::withTrashed()->updateOrCreate(
             ['payment_method_id' => $id],
             $data
         );
@@ -43,7 +44,7 @@ class Transfer extends Payment
     */
     public function getMethodTemplate(int $id): array | null
     {
-        $tm = TransferModel::where('payment_method_id', $id)->first();
+        $tm = TransferModel::withTrashed()->where('payment_method_id', $id)->first();
 
         return [
             'template' => 'payments::transfer.default.info',
