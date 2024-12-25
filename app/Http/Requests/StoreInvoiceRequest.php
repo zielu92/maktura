@@ -34,7 +34,6 @@ class StoreInvoiceRequest extends FormRequest
             'issue_date'        => 'required|date',
             'comment'           => 'nullable|string',
             'issuer_name'       => 'nullable|string',
-            'issuer_name'       => 'nullable|string',
             'buyer_id'          => 'nullable|string',
             'name'              => 'nullable|string|max:255',
             'company_name'      => 'nullable|string',

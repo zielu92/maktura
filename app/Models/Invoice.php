@@ -20,12 +20,12 @@ class Invoice extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(Buyer::class);
+        return $this->belongsTo(Buyer::class)->withTrashed();
     }
 
     public function paymentMethod(): BelongsTo
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class)->withTrashed();
     }
 
     public function user(): BelongsTo

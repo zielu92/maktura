@@ -90,14 +90,14 @@
                             <div class="w-full md:w-1/2 px-3 py-2">
                                 <x-input-label for="comment" :value="__('Komentarz')" />
                                 <x-text-input id="comment" name="comment" type="text" class="mt-1 block w-full"
-                                    :value="old('comment')" required autofocus autocomplete="comment" />
+                                    :value="old('comment')" autofocus autocomplete="comment" />
                                 <x-input-error class="mt-2" :messages="$errors->get('comment')" />
                                 <p class="text-xs italic">np. "odwrotne obciążenie / reverse charge"</p>
                             </div>
                             <div class="w-full md:w-1/4 px-3 py-2">
                                 <x-input-label for="issuer_name" :value="__('Wysawiający fakturę')" />
                                 <x-text-input id="issuer_name" name="issuer_name" type="text"
-                                    class="mt-1 block w-full" :value="old('issuer_name')" required autofocus
+                                    class="mt-1 block w-full" :value="old('issuer_name')" autofocus
                                     autocomplete="issuer_name" />
                                 <x-input-error class="mt-2" :messages="$errors->get('issuer_name')" />
                                 <p class="text-xs italic">Imię nazwisko wystawiającego fakturę</p>
