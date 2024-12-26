@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\InvoiceController;
@@ -47,6 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/buyer/{id}', [BuyerController::class, 'update'])->name('buyer.update');
     Route::delete('/buyer/{id}', [BuyerController::class, 'destroy'])->name('buyer.destroy');
 
+    //settings
+    Route::get('/settings', [SettingsController::class, 'edit'])->name('setting.edit');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('setting.update');
 });
 
 require __DIR__.'/auth.php';
