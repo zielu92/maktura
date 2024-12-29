@@ -25,15 +25,13 @@ class SettingsController extends Controller
      */
     public function update(UpdateSettingsRequest $request)
     {
-        //todo: Fix
-        Log::error("ok");
         $settings = Setting::first();
         if($settings) {
             $settings->update($request->all());
         } else {
             $settings = Setting::create($request->all());
         }
-        return redirect()->bacK();
+        return redirect()->back();
     }
 
 }

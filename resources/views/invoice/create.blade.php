@@ -31,12 +31,13 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('type')" />
                             </div>
 
-                            <div class="w-full md:w-1/4 px-3 py-2">
+                            <div class="w-full md:w-1/4 px-3 py-2"
+                                 x-data="invoice()"
+                                 x-init="generateInvoiceNumber()"
+                            >
                                 <x-input-label for="no" :value="__('Numer faktury')" />
                                 <x-text-input id="no" name="no" type="text" class="mt-1 block w-full"
-                                    :value="old('no')" required autofocus autocomplete="no"
-                                    value="/{{ date('Y') }}" />
-                                //TODO: auto numerating - set up option format in settings
+                                    required autofocus autocomplete="no" x-model="invoiceNumber" />
                                 <x-input-error class="mt-2" :messages="$errors->get('no')" />
                             </div>
 
@@ -65,9 +66,9 @@
                             <div class="w-full md:w-1/3 px-3 py-2">
                                 <x-input-label for="place" :value="__('Miejsce wystawienia')" />
                                 <x-text-input id="place" name="place" type="text" class="mt-1 block w-full"
-                                    :value="old('place')" autofocus autocomplete="place" />
+                                              :value="old('place', $settings->invoice_default_place ?? '')"
+                                              autofocus autocomplete="place" />
                                 <x-input-error class="mt-2" :messages="$errors->get('place')" />
-                                //TODO: set up option format in settings
                             </div>
                             <div class="w-full md:w-1/6 px-3 py-2">
                                 <x-input-label for="sale_date" :value="__('Data wystaiwenia faktury')" />
@@ -97,11 +98,11 @@
                             <div class="w-full md:w-1/4 px-3 py-2">
                                 <x-input-label for="issuer_name" :value="__('Wysawiający fakturę')" />
                                 <x-text-input id="issuer_name" name="issuer_name" type="text"
-                                    class="mt-1 block w-full" :value="old('issuer_name')" autofocus
-                                    autocomplete="issuer_name" />
+                                    class="mt-1 block w-full" :value="old('issuer_name')"
+                                              :value="old('issuer_name', $settings->invoice_default_issuer ?? '')"
+                                              autofocus autocomplete="issuer_name" />
                                 <x-input-error class="mt-2" :messages="$errors->get('issuer_name')" />
                                 <p class="text-xs italic">Imię nazwisko wystawiającego fakturę</p>
-                                //TODO: setting for default
                             </div>
 
                             <div class="w-full md:w-1/4 px-3 py-2">
@@ -254,7 +255,7 @@
                         var calculatedItem = this.items[this.items.indexOf(item)]
                         var discount = 0;
                         //calculate discount
-                        if(calculatedItem.discount!=0) {
+                        if(calculatedItem.discount!==0) {
                             if(calculatedItem.discount.includes("%")) {
                                 var discountedAmount = calculatedItem.discount.replace('%', '');
                                 if(discountedAmount > 0) {
@@ -292,6 +293,21 @@
             }
             function is_Numeric(num) {
                 return !isNaN(parseFloat(num)) && isFinite(num);
+            }
+
+            function invoice() {
+                return {
+                    pattern: '{{ old('invoice_default_pattern', $settings->invoice_default_pattern ?? '{nm}/{m}/{y}') }}',
+                    generateInvoiceNumber()
+                    {
+                        this.invoiceNumber = this.pattern
+                            .replace('{nm}', '{{$monthInvoiceNo}}')
+                            .replace('{ny}', '{{$yearInvoiceNo}}')
+                            .replace('{m}', new Date().getMonth() + 1)
+                            .replace('{y}', new Date().getFullYear())
+                            .replace('{random}', Math.random().toString(36).substr(2, 5));
+                    }
+                }
             }
         </script>
     @endpush

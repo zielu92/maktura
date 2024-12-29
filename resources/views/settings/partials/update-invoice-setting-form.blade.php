@@ -15,61 +15,61 @@
         <div>
             <x-input-label for="seller_company_name" :value="__('Nazwa firmy')" />
             <x-text-input id="seller_company_name" name="seller_company_name" type="text" :value="old('seller_company_name', $settings->seller_company_name ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_company_name')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_company_name')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_address" :value="__('Adres firmy (ulica)')" />
             <x-text-input id="seller_address" name="seller_address" type="text" :value="old('seller_address', $settings->seller_address ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_address')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_address')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_city" :value="__('Adres firmy (miasto)')" />
             <x-text-input id="seller_city" name="seller_city" type="text" :value="old('seller_city', $settings->seller_city ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_city')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_city')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_postal_code" :value="__('Adres firmy (kod pocztowy)')" />
             <x-text-input id="seller_postal_code" name="seller_postal_code" type="text" :value="old('seller_postal_code', $settings->seller_postal_code ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_postal_code')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_postal_code')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_country" :value="__('Adres firmy (państwo)')" />
             <x-text-input id="seller_country" name="seller_country" type="text" :value="old('seller_country', $settings->seller_country ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_country')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_country')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_nip" :value="__('NIP firmy')" />
             <x-text-input id="seller_nip" name="seller_nip" type="text" :value="old('seller_nip', $settings->seller_nip ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_nip')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_nip')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_regon" :value="__('REGON firmy')" />
             <x-text-input id="seller_regon" name="seller_regon" type="text" :value="old('seller_regon', $settings->seller_regon ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_regon')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_regon')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_krs" :value="__('KRS firmy')" />
             <x-text-input id="seller_krs" name="seller_krs" type="text" :value="old('seller_krs', $settings->seller_krs ?? '')"  class="mt-1 block w-full"/>
-            <x-input-error :messages="$errors->updateSetting->get('seller_krs')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_krs')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_email" :value="__('Email sprzedawcy')" />
             <x-text-input id="seller_email" name="seller_email" class="mt-1 block w-full" :value="old('seller_email', $settings->seller_email ?? '')"  autocomplete="email" />
-            <x-input-error :messages="$errors->updatePassword->get('seller_email')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_email')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="seller_phone" :value="__('Telefon sprzedawcy')" />
             <x-text-input id="seller_phone" name="seller_phone" class="mt-1 block w-full" :value="old('seller_phone', $settings->seller_phone ?? '')"  autocomplete="phone" />
-            <x-input-error :messages="$errors->updatePassword->get('seller_phone')" class="mt-2" />
+            <x-input-error :messages="$errors->get('seller_phone')" class="mt-2" />
         </div>
 
         <header>
@@ -85,13 +85,13 @@
         <div>
             <x-input-label for="invoice_default_issuer" :value="__('Domyślne dane osoby wystawiające fakturę')" />
             <x-text-input id="invoice_default_issuer" name="invoice_default_issuer" :value="old('invoice_default_issuer', $settings->invoice_default_issuer ?? '')"  class="mt-1 block w-full" />
-            <x-input-error :messages="$errors->updatePassword->get('invoice_default_issuer')" class="mt-2" />
+            <x-input-error :messages="$errors->get('invoice_default_issuer')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="invoice_default_place" :value="__('Domyślne miejsce wystawienia faktury')" />
             <x-text-input id="invoice_default_place" name="invoice_default_place" :value="old('invoice_default_place', $settings->invoice_default_place ?? '')"  class="mt-1 block w-full" />
-            <x-input-error :messages="$errors->updatePassword->get('invoice_default_place')" class="mt-2" />
+            <x-input-error :messages="$errors->get('invoice_default_place')" class="mt-2" />
         </div>
 
         <div>
@@ -107,17 +107,33 @@
             </select>
         </div>
 
-        <div>
+        <div x-data="example()"
+             x-init="generateExample()"
+             @input="generateExample()"
+        >
             <x-input-label for="invoice_default_pattern" :value="__('Domyślny szablon generowania faktury')" />
-            <x-text-input id="invoice_default_pattern" name="invoice_default_pattern" :value="old('invoice_default_pattern', $settings->invoice_default_pattern ?? '{n}/{m}/{y}')"  class="mt-1 block w-full" />
-            <x-input-error :messages="$errors->updatePassword->get('invoice_default_pattern')" class="mt-2" />
-            //todo:show example
+            <x-text-input
+                id="invoice_default_pattern"
+                x-model="pattern"
+                name="invoice_default_pattern"
+                class="mt-1 block w-full"
+            />
+            <x-input-error :messages="$errors->get('invoice_default_pattern')" class="mt-2" />
+            <div class="mt-4 text-white">
+                <p>{nm} - poprzedni numer faktury w tym miesiacu</p>
+                <p>{ny} - poprzedni numer faktury w tym roku</p>
+                <p>{m} - numer tego miesiaca</p>
+                <p>{y} - numer tego roku</p>
+                <p>{random} - losowy numer</p>
+                <strong>Podgląd przykładu na podstawie formularza:</strong>
+                <div x-text="example" class="mt-2"></div>
+            </div>
         </div>
 
         <div>
             <x-input-label for="invoice_default_template" :value="__('Domyślny szablon faktury')" />
-            <x-text-input id="invoice_default_template" name="invoice_default_template" :value="old('invoice_default_template', $settings->invoice_default_place ?? 'default')" disabled class="mt-1 block w-full" />
-            <x-input-error :messages="$errors->updatePassword->get('invoice_default_template')" class="mt-2" />
+            <x-text-input id="invoice_default_template" name="invoice_default_template" :value="old('invoice_default_template', $settings->invoice_default_template ?? 'default')" disabled class="mt-1 block w-full" />
+            <x-input-error :messages="$errors->get('invoice_default_template')" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">
@@ -125,3 +141,21 @@
         </div>
     </form>
 </section>
+@push('scripts')
+    <script>
+        function example() {
+            return {
+                pattern: '{{ old('invoice_default_pattern', $settings->invoice_default_pattern ?? '{nm}/{m}/{y}') }}',
+                generateExample()
+                {
+                    this.example = this.pattern
+                        .replace('{nm}', '123')
+                        .replace('{ny}', '1234')
+                        .replace('{m}', new Date().getMonth() + 1)
+                        .replace('{y}', new Date().getFullYear())
+                        .replace('{random}', Math.random().toString(36).substr(2, 5));
+                }
+            }
+        }
+    </script>
+@endpush

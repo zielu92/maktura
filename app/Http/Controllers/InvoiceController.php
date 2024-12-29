@@ -7,6 +7,8 @@ use App\Models\Invoice;
 use App\Http\Helpers\PricesHelper;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Models\Setting;
+use Carbon\Carbon;
 use Modules\Payments\App\Models\PaymentMethodModel;
 use Modules\Payments\App\PaymentMethods;
 
@@ -27,9 +29,24 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        $startOfYear = Carbon::now()->startOfYear()->format('Y-m-d');
+        $endOfYear = Carbon::now()->endOfYear()->format('Y-m-d');
+        $startOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $endOfMonth = Carbon::now()->endOfMonth()->format('Y-m-d');
+
+        $yearInvoiceNo = Invoice::where('type', 'regular')
+            ->whereBetween('sale_date', [$startOfYear, $endOfYear])
+            ->get()->count() + 1;
+        $monthInvoices = Invoice::where('type', 'regular')
+            ->whereBetween('sale_date', [$startOfMonth, $endOfMonth])
+            ->get()->count() + 1;
+
         return view('invoice.create', [
             'buyers' => Buyer::all(),
             'paymentMethods' => PaymentMethodModel::all(),
+            'settings' => Setting::first(),
+            'yearInvoiceNo' => $yearInvoiceNo,
+            'monthInvoiceNo' => $monthInvoices,
         ]);
     }
 
